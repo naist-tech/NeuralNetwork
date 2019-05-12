@@ -23,7 +23,7 @@ class Net(nn.Module):
 def train(log_interval, model, device, train_loader, optimizer, epoch):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.view(-1, 28*28).to(device), target.to(device)
+        data, target = data.view(-1, 28*28).to(device), target.to(device) #参照 http://torch.classcat.com/2018/07/25/pytorch-040-examples-mnist-mlp/
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(data)
@@ -66,9 +66,8 @@ def main():
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--save-model', action='store_true', default=False,
                         help='For Saving the current Model')
-
-    
     args = parser.parse_args()
+
 
     torch.manual_seed(seed)
 
