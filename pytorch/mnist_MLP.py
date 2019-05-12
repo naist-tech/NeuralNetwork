@@ -68,7 +68,6 @@ def main():
                         help='For Saving the current Model')
     args = parser.parse_args()
 
-
     torch.manual_seed(seed)
 
     device = torch.device("cpu")
