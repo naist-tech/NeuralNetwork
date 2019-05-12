@@ -5,13 +5,16 @@ import matplotlib.pyplot as plt
 
 # N is batch size; D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
-N, D_in, H, D_out = 64, 1, 3, 3
+N, D_in, H, D_out = 64, 1, 3, 1
 
 # Create random Tensors to hold inputs and outputs.
-x = torch.arange(0, 2*math.pi, 0.01)
+x = torch.arange(0, 2*math.pi, 0.1)
 x = torch.reshape(x, (1, len(x)))
 x = x.t()
 y = torch.sin(x)
+torch.manual_seed(1)
+loss_x  = []
+lost_y = []
 
 # Use the nn package to define our model and loss function.
 model = torch.nn.Sequential(
@@ -25,36 +28,44 @@ loss_fn = torch.nn.MSELoss(reduction='sum')
 # the model for us. Here we will use Adam; the optim package contains many other
 # optimization algoriths. The first argument to the Adam constructor tells the
 # optimizer which Tensors it should update.
-learning_rate = 1e-4
+learning_rate = 0.01
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-for t in range(10):
-  # Forward pass: compute predicted y by passing x to the model.
-  y_pred = torch.sum(model(x))
+for t in range(500):
+  for i in range(50):
+    # Forward pass: compute predicted y by passing x to the model.
+    y_pred = model(x)
 
-  # Compute and print loss.
-  loss = loss_fn(y_pred, y)
-  print(t, loss.item())
+    # Compute and print loss.
+    loss = loss_fn(y_pred, y)
+    
+    # Before the backward pass, use the optimizer object to zero all of the
+    # gradients for the Tensors it will update (which are the learnable weights
+    # of the model)
+    optimizer.zero_grad()
+
+    # Backward pass: compute gradient of the loss with respect to model parameters
+    loss.backward()
+
+    # Calling the step function on an Optimizer makes an update to its parameters
+    optimizer.step()
+
+  print(t*50+50, loss.item())
+  loss_x.append(t*50+50)
+  lost_y.append(loss.item())
+  if loss.item() < 0.05:
+    break
   
-  # Before the backward pass, use the optimizer object to zero all of the
-  # gradients for the Tensors it will update (which are the learnable weights
-  # of the model)
-  optimizer.zero_grad()
-
-  # Backward pass: compute gradient of the loss with respect to model parameters
-  loss.backward()
-
-  # Calling the step function on an Optimizer makes an update to its parameters
-  optimizer.step()
 
 
-print(y_pred)
 import numpy as np
-x = np.arange(0, 2*math.pi, 0.01)
-y = np.sin(x)
+xx = np.arange(0, 2*math.pi, 0.1)
+yy = np.sin(xx)
 
-for i in range():
+function = model(x).data
 
-# グラフを描画
-plt.plot(x, y)
-# plt.plot(x, function)
+plt.subplot(1, 2, 1)
+plt.plot(xx, yy)
+plt.plot(x.numpy(), function.numpy())
+plt.subplot(1, 2, 2)
+plt.plot(loss_x, lost_y)
 plt.show()
