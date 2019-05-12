@@ -1,6 +1,7 @@
 # Code in file nn/two_layer_net_optim.py
 import torch
 import math
+import numpy as np
 
 # N is batch size; D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
@@ -8,7 +9,9 @@ N, D_in, H, D_out = 64, 1, 3, 3
 
 # Create random Tensors to hold inputs and outputs.
 x = torch.arange(0, 2*math.pi, 0.01)
-x = torch.t(x) 
+x = torch.reshape(x, (1, len(x)))
+x = x.t()
+# x = torch.from_numpy(x)
 y = torch.sin(x)
 
 # Use the nn package to define our model and loss function.
@@ -25,7 +28,7 @@ loss_fn = torch.nn.MSELoss(reduction='sum')
 # optimizer which Tensors it should update.
 learning_rate = 1e-4
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-for t in range(500):
+for t in range(5000):
   # Forward pass: compute predicted y by passing x to the model.
   y_pred = torch.sum(model(x))
 
