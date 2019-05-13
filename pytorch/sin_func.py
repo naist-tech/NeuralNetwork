@@ -1,4 +1,3 @@
-# Code in file nn/two_layer_net_optim.py
 import torch
 import math
 import matplotlib.pyplot as plt
@@ -6,13 +5,18 @@ import matplotlib.pyplot as plt
 # N is batch size; D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
 N, D_in, H, D_out = 64, 1, 3, 1
+step = 0.1
 
-# Create random Tensors to hold inputs and outputs.
-x = torch.arange(0, 2*math.pi, 0.1)
-x = torch.reshape(x, (1, len(x)))
-x = x.t()
-y = torch.sin(x)
+# シード値を設定する
 torch.manual_seed(1)
+
+# 学習データをを作成する
+x = torch.arange(0, 2*math.pi, step) #0から2piの範囲で、
+x = torch.reshape(x, (1, len(x))) #ベクトルを行列に変換
+x = x.t() #len(x)行1列に転置する
+y = torch.sin(x)
+
+# 損失を可視化
 loss_x  = []
 lost_y = []
 
