@@ -61,6 +61,7 @@ for t in range(500):
   
 
 
+#以下グラフ表示
 import numpy as np
 xx = np.arange(0, 2*math.pi, 0.1)
 yy = np.sin(xx)
