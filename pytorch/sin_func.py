@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 # H is hidden dimension; D_out is output dimension.
 D_in, H, D_out = 1, 3, 1
 step = 0.1
+epoch = 1000 #
 
 # シード値を設定する
 torch.manual_seed(1)
@@ -33,7 +34,7 @@ learning_rate = 0.01
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
 # 学習
-for t in range(500):
+for t in range(int(epoch/50)):
   for i in range(50):
     # 順伝搬
     y_pred = model(x)
@@ -60,17 +61,13 @@ for t in range(500):
   if loss.item() < 0.05:
     break
   
-
-
 # 以下、グラフ表示
 import numpy as np
-xx = np.arange(0, 2*math.pi, 0.1)
-yy = np.sin(xx)
 
 function = model(x).data
 
 plt.subplot(1, 2, 1)
-plt.plot(xx, yy)
+plt.plot(x.numpy(), y.numpy())
 plt.plot(x.numpy(), function.numpy())
 plt.subplot(1, 2, 2)
 plt.plot(loss_x, lost_y)
