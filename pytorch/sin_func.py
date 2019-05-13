@@ -20,7 +20,7 @@ y = torch.sin(x)
 loss_x  = []
 lost_y = []
 
-# Use the nn package to define our model and loss function.
+# モデルの構築と損失関数の定義
 model = torch.nn.Sequential(
           torch.nn.Linear(D_in, H),
           torch.nn.Sigmoid(),
