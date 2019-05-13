@@ -2,9 +2,9 @@ import torch
 import math
 import matplotlib.pyplot as plt
 
-# N is batch size; D_in is input dimension;
+# D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
-N, D_in, H, D_out = 64, 1, 3, 1
+D_in, H, D_out = 64, 1, 3, 1
 step = 0.1
 
 # シード値を設定する
@@ -61,7 +61,7 @@ for t in range(500):
   
 
 
-#以下グラフ表示
+#以下、グラフ表示
 import numpy as np
 xx = np.arange(0, 2*math.pi, 0.1)
 yy = np.sin(xx)
